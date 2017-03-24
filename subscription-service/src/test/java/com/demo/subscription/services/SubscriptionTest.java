@@ -34,4 +34,17 @@ public class SubscriptionTest {
         assertThat(invoice.getPaymentDue()).isEqualTo(0);
         assertThat(invoice.getClientEmail()).isNotEmpty();
     }
+
+    @Test
+    public void shouldInvoiceMonthlyAmountToRegularMonthlySubscription() throws Exception {
+        // given:
+        String accountId = "22222";
+        Subscription subscription = new Subscription(accountId, MONTHLY);
+
+        // when:
+        Invoice invoice = service.createInvoice(subscription);
+
+        // then:
+        assertThat(invoice.getPaymentDue()).isEqualTo(Subscription.SubscriptionType.MONTHLY.getFeeInPenny());
+    }
 }
